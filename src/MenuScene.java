@@ -12,10 +12,10 @@ public class MenuScene extends JPanel {
 
     public void paint(Graphics graphics){
        Graphics2D createGraphics = (Graphics2D) graphics;
-       createGraphics.setFont(new Font("Ariel",Font.BOLD,40));
+       createGraphics.setFont(new Font("Ariel",Font.BOLD,25));
        createGraphics.setPaint(Color.BLACK);
-       createGraphics.drawString("Welcome to the best Snake game ever!",125,100);
-       createGraphics.drawString("To start game, press enter",250,600);
+       createGraphics.drawString("Welcome to the best Snake game ever!",100,100);
+       createGraphics.drawString("To start game, press enter",200,600);
        createGraphics.dispose();
     }
 

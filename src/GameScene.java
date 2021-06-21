@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class GameScene extends JPanel {
@@ -9,7 +7,7 @@ public class GameScene extends JPanel {
     private int sceneId;
     private Snake snake;
     private Fruit fruit;
-    private List<Fruit> fruits;
+    private Fruit[] fruits;
     private MenuScene menuScene;
 
     public GameScene(){
@@ -17,7 +15,7 @@ public class GameScene extends JPanel {
         this.setLayout(null);
         this.snake = new Snake(100,200,25,25);
         this.fruit = new Fruit(300,500,20,20);
-        this.fruits = new ArrayList<>();
+        this.fruits = new Fruit[]{fruit};
         this.menuScene = new MenuScene();
         this.sceneId = Definitions.MENU_SCENE;
         this.mainGameLoop();
@@ -30,9 +28,18 @@ public class GameScene extends JPanel {
 
     public void addANewFruit(){
         Random random = new Random();
-        fruits.add(new Fruit(random.nextInt(Definitions.WINDOW_WIDTH),random.nextInt(Definitions.WINDOW_HEIGHT),20,20));
-
-
+        int counter = 0;
+        for(int i=0; i<fruits.length; i++){
+            counter++;
+        }
+        if(counter>=1){
+            Fruit[] newFruits = new Fruit[counter+1];
+            for (int i=0; i<fruits.length; i++){
+                newFruits[i] = fruits[i];
+            }
+            newFruits[counter] = new Fruit(random.nextInt(Definitions.WINDOW_WIDTH),random.nextInt(Definitions.WINDOW_HEIGHT),20,20);
+            this.fruits = newFruits;
+        }
     }
 
     public void paint(Graphics graphics){
@@ -52,13 +59,11 @@ public class GameScene extends JPanel {
     private void mainGameLoop(){
         new Thread(() -> {
             while(true){
-                if(collision(fruits)){
-                    System.out.println("collision!!");
-                    this.fruit.setVisible(false);
-                    addANewFruit();
+                    if (collision(fruits)) {
+                        System.out.println("collision!!");
+                        addANewFruit();
 
-
-                }
+                    }
                 repaint();
                 try {
                     Thread.sleep(25);
@@ -69,12 +74,12 @@ public class GameScene extends JPanel {
         }).start();
     }
 
-    public boolean collision (List<Fruit> fruits){
+    public boolean collision (Fruit[] fruits){
         Rectangle snakeRectangle = snake.getBounds();
         Rectangle firstFruitRectangle = fruit.getBounds();
         boolean firstCollision = snakeRectangle.intersects(firstFruitRectangle);
-        for(Fruit fruit : fruits) {
-            Rectangle fruitRectangle = fruit.getBounds();
+        for(int i=0; i<fruits.length; i++){
+            Rectangle fruitRectangle = fruits[i].getBounds();
             boolean collision = snakeRectangle.intersects(fruitRectangle);
             return collision;
         }
