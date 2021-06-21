@@ -28,7 +28,6 @@ public class GameScene extends JPanel {
         Random random = new Random();
         Fruit newFruit = new Fruit(random.nextInt(Definitions.WINDOW_WIDTH),random.nextInt(Definitions.WINDOW_HEIGHT),20,20);
         this.fruit = newFruit;
-       // newFruit.paint(getGraphics());
     }
 
     public boolean collision (){
@@ -37,6 +36,12 @@ public class GameScene extends JPanel {
         boolean collision = snakeRectangle.intersects(fruitRectangle);
         return collision;
     }
+
+   /* public void addToSnakesBody (){
+        Snake newSnake = new Snake(this.snake.getX()+this.snake.getWidth(),this.snake.getY()+this.snake.getHeight(),
+                this.snake.getWidth(),this.snake.getHeight());
+        this.snake = newSnake;
+    }*/
 
     public void paint(Graphics graphics){
         super.paint(graphics);
@@ -58,6 +63,7 @@ public class GameScene extends JPanel {
                 if(collision()){
                     System.out.println("collision!!");
                     addANewFruit();
+                    //addToSnakesBody();
                 }
                 repaint();
                 try {
